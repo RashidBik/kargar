@@ -1,5 +1,5 @@
-<script>
-	import { supabase } from '$lib/supabaseClient'
+<!-- <script>
+	// import { supabase } from '$lib/supabaseClient'
 	import { goto } from '$app/navigation'
 
 	let email = ''
@@ -18,13 +18,13 @@
 			goto('/admin')
 		}
 	}
-</script>
+</script> -->
 
 <h2>Admin Login</h2>
 
-<input placeholder="Email" bind:value={email} />
+<!-- <input placeholder="Email" bind:value={email} />
 <input type="password" placeholder="Password" bind:value={password} />
 
 <button on:click={login}>Login</button>
 
-<p style="color:red">{error}</p>
+<p style="color:red">{error}</p> -->

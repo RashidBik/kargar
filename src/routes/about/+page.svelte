@@ -29,7 +29,7 @@
 <section class="about-hero">
     <div class="container">
         <h1>درباره مطبعه کارگر</h1>
-        <p>نیم قرن تجربه در صنعت چاپ ایران</p>
+        <p>سالها تجربه در صنعت چاپ افغانستان</p>
     </div>
 </section>
 
