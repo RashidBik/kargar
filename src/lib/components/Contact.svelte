@@ -1,4 +1,7 @@
+
 <script>
+ import { securityMonitor } from '$lib/securityMonitor';
+
     let formData = {
         name: '',
         email: '',
@@ -8,18 +11,135 @@
     
     let isSubmitting = false;
     let submitMessage = '';
+    let messageType = '';
+    let errors = {}; // Track validation errors
     
-    async function handleSubmit() {
+    // Replace with your Formspree endpoint
+    const CONTACT_ENDPOINT = 'https://formspree.io/f/maqpnyga';
+    
+    // 🟢 VALIDATION FUNCTION - This is the important part!
+    function validateForm() {
+        errors = {};
+        let isValid = true;
+        
+        // Sanitize inputs (remove dangerous characters)
+        const sanitize = (str) => {
+            if (!str) return '';
+            return str.replace(/[<>]/g, '')  // Remove < and > tags
+                      .replace(/&/g, '&amp;') // Encode &
+                      .trim();
+        };
+        
+        // Apply sanitization
+        formData.name = sanitize(formData.name);
+        formData.message = sanitize(formData.message);
+        
+        // 1. Name validation
+        if (!formData.name) {
+            errors.name = 'نام و نام خانوادگی الزامی است';
+            isValid = false;
+        } else if (formData.name.length < 3) {
+            errors.name = 'نام باید حداقل ۳ کاراکتر باشد';
+            isValid = false;
+        } else if (formData.name.length > 50) {
+            errors.name = 'نام نباید بیشتر از ۵۰ کاراکتر باشد';
+            isValid = false;
+        }
+        
+        // 2. Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email) {
+            errors.email = 'ایمیل الزامی است';
+            isValid = false;
+        } else if (!emailRegex.test(formData.email)) {
+            errors.email = 'ایمیل معتبر وارد کنید (مثال: name@domain.com)';
+            isValid = false;
+        }
+        
+        // 3. Phone validation (Afghanistan format)
+        // Afghan numbers: +93 70 123 4567 or 0701234567
+         const cleanPhone = formData.phone.replace(/[-\s+]/g, ''); // Remove dashes, spaces, plus signs
+        
+        if (!formData.phone) {
+            errors.phone = 'شماره تماس الزامی است';
+            isValid = false;
+        } else if (cleanPhone.length < 10 || cleanPhone.length > 13) {
+            errors.phone = 'شماره تماس باید بین ۱۰ تا ۱۳ رقم باشد';
+            isValid = false;
+        } else if (!/^\d+$/.test(cleanPhone)) { // Check if only digits remain
+            errors.phone = 'شماره تماس باید فقط شامل اعداد باشد';
+            isValid = false;
+        }
+        
+        // 4. Message validation
+        if (!formData.message) {
+            errors.message = 'متن پیام الزامی است';
+            isValid = false;
+        } else if (formData.message.length < 10) {
+            errors.message = 'پیام باید حداقل ۱۰ کاراکتر باشد';
+            isValid = false;
+        } else if (formData.message.length > 1000) {
+            errors.message = 'پیام نباید بیشتر از ۱۰۰۰ کاراکتر باشد';
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    async function handleSubmit(event) {
+        event.preventDefault();
+        
+        // 🟢 RUN VALIDATION BEFORE SUBMITTING
+        if (!validateForm()) {
+            // Show first error at the top
+            submitMessage = 'لطفاً خطاهای فرم را اصلاح کنید';
+            messageType = 'error';
+            return;
+        }
+        
         isSubmitting = true;
         submitMessage = '';
+        messageType = '';
         
-        // شبیه‌سازی ارسال فرم
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // اینجا می‌توانید کد ارسال واقعی را اضافه کنید
-        submitMessage = 'پیام شما با موفقیت ارسال شد. به زودی با شما تماس می‌گیریم.';
-        formData = { name: '', email: '', phone: '', message: '' };
-        isSubmitting = false;
+        try {
+            const response = await fetch(CONTACT_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    message: formData.message,
+                    _subject: `پیام جدید از ${formData.name}`,
+                    _replyto: formData.email
+                })
+            });
+
+            await securityMonitor.logFormSubmission('contact', formData.email);
+            
+            if (response.ok) {
+                submitMessage = '✅ پیام شما با موفقیت ارسال شد';
+                messageType = 'success';
+                // Clear form
+                formData = { name: '', email: '', phone: '', message: '' };
+                errors = {};
+            } else {
+                throw new Error('Submission failed');
+            }
+        } catch (error) {
+            submitMessage = '❌ خطا در ارسال. لطفاً دوباره تلاش کنید';
+            messageType = 'error';
+             // Log the error
+            await securityMonitor.log('form_error', {
+                email: formData.email,
+                error: error.message
+            });
+        } finally {
+            isSubmitting = false;
+        }
     }
 </script>
 
@@ -35,7 +155,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <div>
                         <h4>آدرس</h4>
-                        <p>تهران، خیابان انقلاب، خیابان قدس، پلاک ۱۲۳</p>
+                        <p>مزارشریف افغانستان, چهار راهی الکوزی مارکیت شیرخان</p>
                     </div>
                 </div>
                 
@@ -43,8 +163,8 @@
                     <i class="fas fa-phone"></i>
                     <div>
                         <h4>تلفن</h4>
-                        <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
-                        <p>۰۲۱-۸۷۶۵۴۳۲۱</p>
+                        <p> 9379-342-5501+</p>
+                        <p>9379-420-0124+</p>
                     </div>
                 </div>
                 
@@ -52,8 +172,8 @@
                     <i class="fas fa-envelope"></i>
                     <div>
                         <h4>ایمیل</h4>
-                        <p>info@kargarprint.ir</p>
-                        <p>sales@kargarprint.ir</p>
+                        <p>khalidhashimi39@gmail.com</p>
+                        <p>kargarsign@gmail.com</p>
                     </div>
                 </div>
                 
@@ -61,8 +181,8 @@
                     <i class="fas fa-clock"></i>
                     <div>
                         <h4>ساعات کاری</h4>
-                        <p>شنبه تا چهارشنبه: ۹ صبح تا ۶ عصر</p>
-                        <p>پنجشنبه: ۹ صبح تا ۲ بعدازظهر</p>
+                        <p>شنبه تا پنج شنبه: ۹ صبح تا ۸ شب</p>
+                      
                     </div>
                 </div>
                 
@@ -77,14 +197,18 @@
             <div class="contact-form">
                 <h3>ارسال پیام</h3>
                 
-                <form on:submit|preventDefault={handleSubmit}>
+                <form on:submit={handleSubmit}>
                     <div class="form-group">
                         <input 
                             type="text" 
                             placeholder="نام و نام خانوادگی"
                             bind:value={formData.name}
-                            required
+                            disabled={isSubmitting}
+                            class={errors.name ? 'error' : ''}
                         >
+                        {#if errors.name}
+                            <span class="error-text">{errors.name}</span>
+                        {/if}
                     </div>
                     
                     <div class="form-group">
@@ -92,17 +216,25 @@
                             type="email" 
                             placeholder="ایمیل"
                             bind:value={formData.email}
-                            required
+                            disabled={isSubmitting}
+                            class={errors.email ? 'error' : ''}
                         >
+                        {#if errors.email}
+                            <span class="error-text">{errors.email}</span>
+                        {/if}
                     </div>
                     
                     <div class="form-group">
                         <input 
                             type="tel" 
-                            placeholder="شماره تماس"
+                            placeholder="شماره تماس (مثال: +93 70 123 4567)"
                             bind:value={formData.phone}
-                            required
+                            disabled={isSubmitting}
+                            class={errors.phone ? 'error' : ''}
                         >
+                        {#if errors.phone}
+                            <span class="error-text">{errors.phone}</span>
+                        {/if}
                     </div>
                     
                     <div class="form-group">
@@ -110,12 +242,18 @@
                             placeholder="متن پیام"
                             rows="5"
                             bind:value={formData.message}
-                            required
+                            disabled={isSubmitting}
+                            class={errors.message ? 'error' : ''}
+                            maxlength="1000"
                         ></textarea>
+                        {#if errors.message}
+                            <span class="error-text">{errors.message}</span>
+                        {/if}
+                        <small>{formData.message.length}/1000</small>
                     </div>
                     
                     {#if submitMessage}
-                        <div class="submit-message success">
+                        <div class="submit-message {messageType}">
                             {submitMessage}
                         </div>
                     {/if}
@@ -124,7 +262,7 @@
                         {#if isSubmitting}
                             <i class="fas fa-spinner fa-spin"></i> در حال ارسال...
                         {:else}
-                            ارسال پیام
+                            <i class="fas fa-paper-plane"></i> ارسال پیام
                         {/if}
                     </button>
                 </form>
@@ -232,7 +370,30 @@
         color: #155724;
         border: 1px solid #c3e6cb;
     }
+      .error-text {
+        color: #e74c3c;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: block;
+    }
     
+    input.error, textarea.error {
+        border-color: #e74c3c !important;
+        background-color: #fff8f8;
+    }
+  
+    
+    .submit-message.error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    small {
+        display: block;
+        text-align: left;
+        color: #666;
+        margin-top: 5px;
+    }
     @media (max-width: 768px) {
         .contact-wrapper {
             grid-template-columns: 1fr;
@@ -240,3 +401,4 @@
         }
     }
 </style>
+

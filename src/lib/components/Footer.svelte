@@ -1,10 +1,59 @@
+
+<script>
+    let newsletterEmail = '';
+    let isSubscribing = false;
+    let newsletterMessage = '';
+    
+    // Replace this with your actual Formspree endpoint
+    const NEWSLETTER_ENDPOINT = 'https://formspree.io/f/maqpnyga';
+    
+    async function handleNewsletterSubmit(event) {
+        event.preventDefault(); // Add preventDefault
+        
+        if (!newsletterEmail) {
+            newsletterMessage = 'لطفاً ایمیل خود را وارد کنید';
+            return;
+        }
+        
+        isSubscribing = true;
+        newsletterMessage = '';
+        
+        try {
+            const response = await fetch(NEWSLETTER_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: newsletterEmail,
+                    _subject: 'عضویت در خبرنامه - مطبعه کارگر'
+                })
+            });
+            
+            if (response.ok) {
+                newsletterMessage = 'ایمیل شما با موفقیت ثبت شد';
+                newsletterEmail = '';
+            } else {
+                throw new Error('Subscription failed');
+            }
+        } catch (error) {
+            newsletterMessage = 'خطا در ثبت ایمیل. لطفاً دوباره تلاش کنید';
+        } finally {
+            isSubscribing = false;
+        }
+    }
+</script>
+
+
+```
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>درباره مطبعه کارگر</h3>
                 <p>
-                    با بیش از ۲۰ سال سابقه درخشان در صنعت چاپ و ساخت لوحه‌های برجسته، 
+                    با بیش از ۱۵ سال سابقه درخشان در صنعت چاپ و ساخت لوحه‌های برجسته، 
                     همراه همیشگی شما در خلق آثار ماندگار هستیم.
                 </p>
             </div>
@@ -22,15 +71,39 @@
             <div class="footer-section">
                 <h3>خبرنامه</h3>
                 <p>برای دریافت آخرین اخبار و تخفیف‌ها، ایمیل خود را وارد کنید.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="ایمیل شما">
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                <form class="newsletter-form" on:submit={handleNewsletterSubmit}>
+                    <input 
+                        type="email" 
+                        placeholder="ایمیل شما"
+                        bind:value={newsletterEmail}
+                        disabled={isSubscribing}
+                    >
+                    <button type="submit" disabled={isSubscribing}>
+                        {#if isSubscribing}
+                            <i class="fas fa-spinner fa-spin"></i>
+                        {:else}
+                            <i class="fas fa-paper-plane"></i>
+                        {/if}
+                    </button>
                 </form>
+
+            {#if newsletterMessage}
+                <div class="newsletter-message">
+                    {newsletterMessage}
+                </div>
+            {/if}
             </div>
         </div>
         
         <div class="footer-bottom">
             <p>&copy; {new Date().getFullYear()} مطبعه کارگر. تمامی حقوق محفوظ است.</p>
+            <small>
+                <i>
+                    <p class="shimmer">
+                        {@html '< Developed by Space4soft >'}
+                    </p>
+                </i>
+            </small>
         </div>
     </div>
 </footer>
@@ -129,4 +202,24 @@
         opacity: 0.6;
         font-size: 0.9rem;
     }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      currentColor 0%,
+      #fff 50%,
+      currentColor 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: shimmer 3s infinite;
+  }
+  
+  @keyframes shimmer {
+    to {
+      background-position: 200% center;
+    }
+  }
 </style>

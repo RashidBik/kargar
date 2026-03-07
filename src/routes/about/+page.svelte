@@ -2,10 +2,9 @@
     import { onMount } from 'svelte';
     
     let stats = [
-        { number: 20, label: 'سال تجربه', suffix: '+' },
-        { number: 5000, label: 'پروژه موفق', suffix: '+' },
+        { number: 15, label: 'سال تجربه', suffix: '+' },
+        { number: 1000, label: 'پروژه موفق', suffix: '+' },
         { number: 1000, label: 'مشتری راضی', suffix: '+' },
-        { number: 50, label: 'جایزه صنعتی', suffix: '' }
     ];
     
     onMount(() => {
@@ -24,6 +23,8 @@
             return stat;
         });
     });
+    console.log(stats.current);
+    
 </script>
 
 <section class="about-hero">
@@ -40,18 +41,18 @@
             <div class="story-grid">
                 <div class="story-text">
                     <p>
-                        مطبعه کارگر در سال ۱۳۷۵ با هدف ارائه خدمات چاپ با کیفیت و ساخت لوحه‌های برجسته در تهران تاسیس شد. 
+                        مطبعه کارگر در سال ۱۳۹۰ با هدف ارائه خدمات چاپ با کیفیت و ساخت لوحه‌های برجسته در مزارشریف تاسیس شد. 
                         ما از همان ابتدا با بهره‌گیری از جدیدترین تکنولوژی‌های روز دنیا و استخدام نیروهای متخصص، 
-                        توانستیم جایگاه ویژه‌ای در صنعت چاپ ایران به دست آوریم.
+                        توانستیم جایگاه ویژه‌ای در صنعت چاپ شهرمان به دست آوریم.
                     </p>
                     <p>
-                        امروز پس از بیش از دو دهه فعالیت مستمر، مفتخریم که با صدها سازمان، شرکت و نهاد دولتی و خصوصی همکاری داشته‌ایم 
+                        امروز پس از بیش از یک دهه فعالیت مستمر، مفتخریم که با صدها سازمان، شرکت و نهاد دولتی و خصوصی همکاری داشته‌ایم 
                         و توانسته‌ایم رضایت ایشان را جلب کنیم. ما در مطبعه کارگر، کیفیت را فدای کمیت نمی‌کنیم و 
                         همواره به دنبال خلق آثاری هستیم که ماندگار شوند.
                     </p>
                 </div>
                 <div class="story-image">
-                    <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="تاریخچه مطبعه کارگر">
+                    <img src="https://img.freepik.com/premium-vector/print-worker-profession_180868-5106.jpg" alt="تاریخچه مطبعه کارگر">
                 </div>
             </div>
         </div>
@@ -63,7 +64,7 @@
         <div class="stats-grid">
             {#each stats as stat}
                 <div class="stat-item">
-                    <h3>{stat.current || 0}{stat.suffix}</h3>
+                    <h3>{stat.number || 0}{stat.suffix}</h3>
                     <p>{stat.label}</p>
                 </div>
             {/each}

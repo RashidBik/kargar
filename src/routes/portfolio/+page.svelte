@@ -13,7 +13,7 @@
 
 <style>
     .portfolio-page-hero {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        linear-gradient(158deg, rgba(44, 62, 80, 0.9) 0%, rgb(230 126 34 / 30%) 100%);
         color: var(--white);
         text-align: center;
         padding: 120px 0 80px;

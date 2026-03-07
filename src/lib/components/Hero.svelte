@@ -4,12 +4,12 @@ import { onMount } from "svelte";
     
     const slides = [
         {
-            image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
+            image: 'https://thumbs.dreamstime.com/b/advanced-cnc-machining-process-sparks-precision-engineering-captivating-image-showcases-detailed-view-369813976.jpg',
             title: 'لوحه برجسته با کیفیت عالی',
             description: 'تخصص ما در ساخت لوحه‌های برجسته و تندیس‌های افتخار'
         },
         {
-            image: 'https://images.unsplash.com/photo-1562408595-7a9d3d3c5b5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+            image: 'https://e1.pxfuel.com/desktop-wallpaper/230/800/desktop-wallpaper-digital-printing.jpg',
             title: 'انواع چاپ دیجیتال و افست',
             description: 'از کارت ویزیت تا بیلبوردهای تبلیغاتی'
         }
@@ -65,7 +65,7 @@ import { onMount } from "svelte";
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgba(230,126,34,0.8) 100%);
+        background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgb(230 126 34 / 27%) 100%);
     }
     
     .hero-content {
