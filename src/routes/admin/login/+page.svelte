@@ -1,5 +1,4 @@
 <!-- src/routes/admin/login/+page.svelte -->
- <!-- khalidKargar@420 -->
 <script>
     import { supabase } from '$lib/supabase';
     import { goto } from '$app/navigation';

@@ -18,7 +18,7 @@
             </a>
         </div>
         
-        <button class="mobile-menu-btn" on:click={() => isMenuOpen = !isMenuOpen}>
+        <button class="mobile-menu-btn" on:click={() => isMenuOpen = !isMenuOpen} aria-labelledby='menu'>
             <i class="fas {isMenuOpen ? 'fa-times' : 'fa-bars'}"></i>
         </button>
         

@@ -38,7 +38,7 @@ import { onMount } from "svelte";
     <div class="slide-dots">
         {#each slides as _, index}
             <button 
-                class="dot {index === currentSlide ? 'active' : ''}"
+                class="dot {index === currentSlide ? 'active' : ''}" aria-label="dots"
                 on:click={() => currentSlide = index}
             ></button>
         {/each}
