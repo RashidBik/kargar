@@ -14,7 +14,9 @@
 <!-- نقشه گوگل -->
 <section class="map">
     <div class="mapouter" style="position:relative; text-align:right; width:100%; height:450px;">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.2499320350803!2d67.10934902516496!3d36.7167136969831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f34c75bd450c04d%3A0xe4caa2ee26b1836d!2zUDQ4NStNTTPYjCDahtmH2KfYsSDYsdin2YfZiiDYp9mE2YPZiNiy2YosIE1hemFyLWUgU2hhcmlmLCBBZmdoYW5pc3Rhbg!5e0!3m2!1sen!2s!4v1772899381091!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe title="shirkhan-market" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.2499320350803!2d67.10934902516496!3d36.7167136969831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f34c75bd450c04d%3A0xe4caa2ee26b1836d!2zUDQ4NStNTTPYjCDahtmH2KfYsSDYsdin2YfZiiDYp9mE2YPZiNiy2YosIE1hemFyLWUgU2hhcmlmLCBBZmdoYW5pc3Rhbg!5e0!3m2!1sen!2s!4v1772899381091!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    </div>
 </section>
 
 <style>

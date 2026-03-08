@@ -16,7 +16,7 @@ export async function handle({ event, resolve }) {
     "img-src 'self' data: https://images.unsplash.com https://e1.pxfuel.com https://*.supabase.co https://thumbs.dreamstime.com https://img.freepik.com https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.google.com; " +
     "font-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
     "frame-src 'self' https://www.google.com https://maps.google.com https://*.google.com; " + // ← IMPORTANT for maps
-    "connect-src 'self' https://*.supabase.co https://maps.googleapis.com;"
+    "connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://formspree.io;" 
   );
   
   // Handle admin routes
