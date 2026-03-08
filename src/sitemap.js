@@ -16,6 +16,7 @@ export const sitemap = async () => {
   
   // Static routes
   pages.push({ path: '/', priority: '1.0', changefreq: 'daily' });
+pages.push({ path: '/admin/login', priority: '1.0', changefreq: 'daily' });
   pages.push({ path: '/about', priority: '0.8', changefreq: 'monthly' });
   pages.push({ path: '/contact', priority: '0.8', changefreq: 'monthly' });
   pages.push({ path: '/portfolio', priority: '0.9', changefreq: 'weekly' });

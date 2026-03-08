@@ -16,11 +16,10 @@
 		"outdated": "npm outdated",
 		"security-check": "npx snyk test",
 		"lint": "eslint ."
-		
-
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-vercel": "^6.3.3",
 		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"svelte": "^5.51.0",

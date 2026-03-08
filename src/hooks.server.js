@@ -24,7 +24,7 @@ export async function handle({ event, resolve }) {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      if (!session) {
+      if (!session) {        
         return new Response(null, {
           status: 302,
           headers: { Location: '/admin/login' }
